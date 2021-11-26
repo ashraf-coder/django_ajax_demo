@@ -27,7 +27,7 @@
 
                             <div class="form-group">
                                 <label for="caption" class="mb-1">Caption:</label>
-                                <input  type="text" class="form-control" placeholder="Caption" id="caption" >
+                                <textarea class="form-control" placeholder="Caption" id="caption" ></textarea>
                             </div>
                         </form><br>
                         <div class="text-center">
@@ -87,8 +87,14 @@
                 },
                 success: function (res) {
                     $("#message").text(res.success_message)
-                    $("#postform").toggleClass("show");
                     $("#counter").text(res.new_products_count)
+                    $("#posted_by").val("")
+                    $("#caption").val("")
+
+                    setTimeout(function(){
+                      $("#postform").toggleClass("show");
+                      $("#message").text(" ")
+                    }, 2000)
                 },
                 error: function (){
 
