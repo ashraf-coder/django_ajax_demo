@@ -9,12 +9,12 @@
 <body>
     <div class="container p-4 d-flex justify-content-end">
         <div style="width: auto;border-radius: 20px" class="px-3 py-1 text-white bg-success d-flex justify-content-between align-items-center">
-            product count<span id="counter" style="font-size: 20px;margin-left: 10px">{{ products_count }}</span>
+            posts count<span id="counter" style="font-size: 20px;margin-left: 10px">{{ products_count }}</span>
         </div>
     </div>
-    <div class="text-center"><h5 id="message" class="text-success"></h5></div>
+    <div class="text-center"><h5 id="message" class="text-success"> </h5></div>
     <div class="container p-4">
-        <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-1" href="#postform" role="button">add product</a>
+        <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-1" href="#postform" role="button">add post</a>
             <div class="collapse" id="postform">
                 <div class="container">
                     <div class="row p-4">
@@ -22,16 +22,17 @@
                         <form action="#" >
                             <div class="form-group mb-2">
                                 <label for="posted_by" class="mb-1">Posted by:</label>
-                                <input name="posted_by" type="email" class="form-control" placeholder="name" id="posted_by" >
+                                <input name="posted_by"  class="form-control" placeholder="name" id="posted_by" >
                             </div>
 
                             <div class="form-group">
                                 <label for="caption" class="mb-1">Caption:</label>
                                 <textarea class="form-control" placeholder="Caption" id="caption" ></textarea>
                             </div>
-                        </form><br>
+                        </form>
+                        <br>
                         <div class="text-center">
-                            <button id="add_button" class="w-75 btn btn-warning mb-1">add product</button>
+                            <button id="add_button" class="w-75 btn btn-warning mb-1">add post</button>
                         </div>
                     </div>
                     </div>
@@ -43,66 +44,29 @@
     <script src="{%  static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
 
     <script>
-        {#$('#add_button').on('click', function () {#}
-        {#    $.ajax({#}
-        {#        url: {% url 'ajax_add_product' %},#}
-        {#        type: 'post',#}
-        {#        data: {#}
-        {#            'posted_by': $("#posted_by").val(),#}
-        {#            'caption': $("#caption").val(),#}
-        {#            'csrfmiddlewaretoken': "{{ csrf_token }}",#}
-        {#        },#}
-        {#        dataType: 'json',#}
-        {#        before: function () {#}
-        {#        },#}
-        {#        success: function (res) {#}
-        {#            $("#message").text(res.success_message)#}
-        {#            $("#postform").toggleClass("show");#}
-        {#            $("#counter").text(res.new_products_count)#}
-        {#        },#}
-        {#        error: function (){#}
-        {##}
-        {#        }#}
-        {#    })#}
-        {#})#}
-
-        $('#add_button').on('click', function () {
-            var data = new FormData();
-            var posted_by = $("#posted_by").val()
-            var caption = $("#caption").val()
-
-            data.append("posted_by", posted_by)
-            data.append("caption", caption)
-            data.append('csrfmiddlewaretoken', "{{ csrf_token }}")
-
+        $("#add_button").on("click", function () {
             $.ajax({
-                url: {% url 'ajax_add_product' %},
-                type: 'post',
-                data: data,
-                cache: false,
-                processData: false,
-                contentType: false,
-                dataType: 'json',
+                url: {% url "ajax_add_post" %},
+                type: "post",
+                data: {
+                    "posted_by": $("#posted_by").val(),
+                    "caption": $("#caption").val(),
+                    "csrfmiddlewaretoken": "{{ csrf_token }}"
+                },
+                dataType: "json",
                 before: function () {
+
                 },
                 success: function (res) {
                     $("#message").text(res.success_message)
-                    $("#counter").text(res.new_products_count)
+                    $("#postform").toggleClass("show")
+                    $("#counter").text(res.new_post_count)
                     $("#posted_by").val("")
                     $("#caption").val("")
-
-                    setTimeout(function(){
-                      $("#postform").toggleClass("show");
-                      $("#message").text(" ")
-                    }, 2000)
-                },
-                error: function (){
-
                 }
             })
         })
-
-
     </script>
+
 </body>
 </html>
